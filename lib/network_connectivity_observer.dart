@@ -5,7 +5,12 @@ class NetworkConnectivityObserver implements ConnectivityObserver {
   final _connectivity = Connectivity();
   @override
   Stream<Status> observe() {
-    return _connectivity.onConnectivityChanged.map((event) {
+    return _connectivity.onConnectivityChanged.where((event) {
+      return event == ConnectivityResult.wifi ||
+          event == ConnectivityResult.ethernet ||
+          event == ConnectivityResult.mobile ||
+          event == ConnectivityResult.none;
+    }).map((event) {
       switch (event) {
         case ConnectivityResult.wifi:
         case ConnectivityResult.ethernet:
